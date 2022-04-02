@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Komoot Plus",
+  "description": "Add visualization features to Komoot",
+  "version": "1.0.0",
+  "author": "Michał Tkacz",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "geolocation",
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["*://*.komoot.com/*"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.komoot.com/plan/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html"
+  }
+}

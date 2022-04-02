@@ -1,0 +1,38 @@
+{
+  "name": "komoot-plus",
+  "version": "1.0.0",
+  "description": "Chrome extensions adding visualization features to Komoot",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack --watch",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "keywords": [
+    "komoot",
+    "chrome-extension"
+  ],
+  "author": "Michał Tkacz",
+  "license": "MIT",
+  "dependencies": {
+    "@types/chrome": "^0.0.178",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.17.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "style-loader": "^3.3.1",
+    "css-loader": "^6.6.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
