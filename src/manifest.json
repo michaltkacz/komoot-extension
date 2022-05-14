@@ -12,6 +12,12 @@
     "unlimitedStorage"
   ],
   "host_permissions": ["*://*.komoot.com/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["content.html"],
+      "matches": ["*://*.komoot.com/*"]
+    }
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -19,7 +25,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.komoot.com/plan/*"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "all_frames": true
     }
   ],
   "action": {

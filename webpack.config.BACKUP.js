@@ -1,15 +1,22 @@
 const path = require('path');
-const webpack = require('webpack');
-const CleanPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
-const HtmlPlugin = require('html-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const mode =
+  process.env.NODE_ENV === 'development' ? 'development' : 'production';
 
 module.exports = {
+  mode: mode,
   entry: {
     popup: path.join(__dirname, 'src', 'popup', 'popup.tsx'),
     options: path.join(__dirname, 'src', 'options', 'options.tsx'),
     content: path.join(__dirname, 'src', 'content', 'content.tsx'),
     background: path.join(__dirname, 'src', 'background', 'background.ts'),
+  },
+  output: {
+    path: path.join(__dirname, 'build'),
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -49,17 +56,21 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanPlugin(),
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, 'public', 'manifest.json'),
+        },
+      ],
     }),
-    new HtmlPlugin({
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'popup', 'popup.html'),
       inject: true,
       filename: 'popup.html',
       chunks: ['popup'],
     }),
-    new HtmlPlugin({
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'options', 'options.html'),
       inject: true,
       filename: 'options.html',
@@ -67,21 +78,16 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    plugins: [new TsconfigPathsPlugin()],
-    // alias: {
-    //   '@': 'src',
-    // },
-    // alias: Object.keys(tsconfig.compilerOptions.paths).reduce(
-    //   (aliases, aliasName) => {
-    //     aliases[aliasName] = path.resolve(
-    //       __dirname,
-    //       `src/${tsconfig.compilerOptions.paths[aliasName][0]}`
-    //     );
-
-    //     return aliases;
-    //   },
-    //   {}
-    // ),
+    extensions: ['.ts', '.js', '.tsx', '.jsx'],
+  },
+  devtool: false,
+  devServer: {
+    host: process.env.HOST || 'localhost',
+    port: 3000,
+    static: path.join(__dirname, 'dev'),
+    open: true,
+    compress: true,
+    historyApiFallback: true,
+    hot: true,
   },
 };
